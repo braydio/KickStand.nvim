@@ -35,4 +35,22 @@ vim.o.inccommand = "split"
 
 vim.g.have_nerd_font = false
 
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking text',
+  group = vim.api.nvim_create_augroup('kickstart-hightlight-yank', { clear = true }),
+  callback = function()
+    vim.hl.on_yank()
+  end,
+})
+
+-- Colorscheme cycle
+local colorschemes = { 'catppuccin', 'tokyonight', 'rose-pine' }
+vim.g.current_colorscheme_index = 1
+function ToggleColorscheme()
+  vim.g.current_colorscheme_index = vim.g.current_colorscheme_index % #colorschemes + 1
+  local scheme = colorschemes[vim.g.current_colorscheme_index]
+  vim.cmd('colorscheme ' .. scheme)
+  print('Colorscheme set to ' .. scheme)
+end
+
 return {}

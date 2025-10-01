@@ -13,4 +13,6 @@ return {
   { "rose-pine/neovim", name = "rose-pine" },
   { "rebelot/kanagawa.nvim" },
   { "EdenEast/nightfox.nvim" },
+  { "ellisonleao/gruvbox.nvim" },
+  { "navarasu/onedark.nvim" },
 }

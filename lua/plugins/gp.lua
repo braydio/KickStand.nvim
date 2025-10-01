@@ -18,8 +18,9 @@ return {
       },
       cmd_prefix = 'Gp',
       curl_params = { 'proxy', 'http://localhost:8080' },
-      log_file = '/home/braydenchaffee/.config/nvim/lazy_log.log',
-      log_sensitive = false,
+      -- Store logs outside the repo and redact sensitive values
+      log_file = vim.fn.stdpath('state') .. '/gp.nvim.log',
+      log_sensitive = true,
 
       agents = {
         {
@@ -107,46 +108,99 @@ Return only the rewritten content. Do not include any explanations, prefaces, or
 ]],
           },
         },
+        utils = {
+          Docstringify = {
+            prompt = [[
+Create a clear, concise docstring for the following code. Include parameter and return descriptions where appropriate. Keep the style idiomatic for the language.
+
+{{selection}}
+
+Return only the updated code with the docstring added.
+]],
+          },
+          UnitTest = {
+            prompt = [[
+Write unit tests for the following code. Use common testing frameworks for the language. Focus on edge cases and clear assertions.
+
+{{selection}}
+
+Return only the test code.
+]],
+          },
+          CommitMessage = {
+            prompt = [[
+Generate a concise, conventional commit message (type(scope): summary) summarizing the following diff or description:
+
+{{selection}}
+
+Return only the commit message line(s).
+]],
+          },
+        },
       },
     }
 
-    -- Visual mode keymaps (outside gp.setup)
-    vim.keymap.set('n', '<leader>gn', '<Cmd>GpChatNew<CR>', { desc = '💬 Start a new GP chat' })
+    -- Keymaps (outside gp.setup)
+    -- Open new chats in a split so they don't take over the entire screen
+    vim.keymap.set('n', '<leader>gn', '<Cmd>vsplit | GpChatNew<CR>', { desc = 'GP: New chat (vsplit)' })
+    vim.keymap.set('n', '<leader>ga', '<Cmd>GpAgentNext<CR>', { desc = 'GP: Next agent' })
     vim.keymap.set(
       'v',
       '<leader>gr',
       ':<C-u>GpRewrite ReviewCode<CR>',
-      { desc = '🧪 Review code' }
+      { desc = 'GP: Review code' }
     )
     vim.keymap.set(
       'v',
       '<leader>gf',
       ':<C-u>GpRewrite RefactorCode<CR>',
-      { desc = '🛠 Refactor code' }
+      { desc = 'GP: Refactor code' }
     )
     vim.keymap.set(
       'v',
       '<leader>ge',
       ':<C-u>GpRewrite ExplainCode<CR>',
-      { desc = '🧠 Explain code' }
+      { desc = 'GP: Explain code' }
     )
     vim.keymap.set(
       'v',
       '<leader>gc',
       ':<C-u>GpRewrite CommentCode<CR>',
-      { desc = '💬 Add comments' }
+      { desc = 'GP: Add comments' }
     )
     vim.keymap.set(
       'v',
       '<leader>gm',
       ':<C-u>GpRewrite FormatMarkdown<CR>',
-      { desc = '💬 Markdown format' }
+      { desc = 'GP: Markdown format' }
     )
     vim.keymap.set(
       'v',
       '<leader>gt',
       ':<C-u>GpRewrite AddTypes<CR>',
-      { desc = '🏷 Add type annotations' }
+      { desc = 'GP: Add type annotations' }
+    )
+
+    -- Optional: Docstring utility
+    vim.keymap.set(
+      'v',
+      '<leader>gd',
+      ':<C-u>GpRewrite Docstringify<CR>',
+      { desc = 'GP: Add docstring' }
+    )
+    -- Optional: Generate tests utility
+    vim.keymap.set(
+      'v',
+      '<leader>gT',
+      ':<C-u>GpRewrite UnitTest<CR>',
+      { desc = 'GP: Generate unit tests' }
+    )
+    -- Optional: Commit message helper from selected text/diff
+    vim.keymap.set(
+      'v',
+      '<leader>gM',
+      ':<C-u>GpRewrite CommitMessage<CR>',
+      { desc = 'GP: Commit message' }
     )
   end,
 }
