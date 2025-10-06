@@ -3,6 +3,12 @@ return {
   event = 'VeryLazy',
   config = function()
     local gp = require 'gp'
+    local brief_system_prompt = table.concat({
+      'You are a focused coding assistant.',
+      'Respond concisely and stay well within token limits.',
+      'Follow the request exactly and omit extra commentary or unsolicited advice.',
+      'Skip explanations unless they are explicitly asked for by the user.',
+    }, ' ')
     gp.setup {
       providers = {
         openai = {
@@ -50,6 +56,12 @@ return {
       },
 
       system_prompt = 'You are a helpful coding assistant',
+
+      hooks = {
+        BriefChat = function(gp, params)
+          gp.cmd.ChatNew(params, brief_system_prompt)
+        end,
+      },
 
       templates = {
         rewrite = {
@@ -143,7 +155,14 @@ Return only the commit message line(s).
     -- Keymaps (outside gp.setup)
     -- Open new chats in a split so they don't take over the entire screen
     vim.keymap.set('n', '<leader>gn', '<Cmd>vsplit | GpChatNew<CR>', { desc = 'GP: New chat (vsplit)' })
-    vim.keymap.set('n', '<leader>ga', '<Cmd>GpAgentNext<CR>', { desc = 'GP: Next agent' })
+    vim.keymap.set('n', '<leader>gB', '<Cmd>vsplit | GpBriefChat<CR>', { desc = 'GP: New brief chat (vsplit)' })
+    vim.keymap.set('n', '<leader>ga', '<Cmd>GpNextAgent<CR>', { desc = 'GP: Next agent' })
+    vim.keymap.set(
+      'v',
+      '<leader>gn',
+      ':<C-u>GpChatNew vsplit<CR>',
+      { desc = 'GP: New chat with selection (vsplit)' }
+    )
     vim.keymap.set(
       'v',
       '<leader>gr',
@@ -179,6 +198,12 @@ Return only the commit message line(s).
       '<leader>gt',
       ':<C-u>GpRewrite AddTypes<CR>',
       { desc = 'GP: Add type annotations' }
+    )
+    vim.keymap.set(
+      'v',
+      '<leader>gB',
+      ':<C-u>GpBriefChat vsplit<CR>',
+      { desc = 'GP: Brief chat (vsplit)' }
     )
 
     -- Optional: Docstring utility

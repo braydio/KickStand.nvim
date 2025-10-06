@@ -33,5 +33,10 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus left' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus right' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus down' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus up' })
+-- Window resize shortcuts similar to LazyVim
+vim.keymap.set('n', '<C-Up>', '<cmd>resize +2<CR>', { desc = 'Increase window height' })
+vim.keymap.set('n', '<C-Down>', '<cmd>resize -2<CR>', { desc = 'Decrease window height' })
+vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -2<CR>', { desc = 'Decrease window width' })
+vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +2<CR>', { desc = 'Increase window width' })
 
 return {}
