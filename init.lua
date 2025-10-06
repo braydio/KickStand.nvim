@@ -23,4 +23,5 @@ require('lazy').setup({
   spec = { { import = 'plugins' } },
   defaults = { lazy = true },
   install = { colorscheme = { 'catppuccin', 'tokyonight', 'rose-pine', 'nightfox', 'gruvbox', 'onedark' } },
+  git = { url_format = 'git@github.com:%s.git' },
 })
