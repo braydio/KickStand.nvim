@@ -41,7 +41,7 @@ return {
     end,
   },
   {
-    "stevearc/outline.nvim",
+    "hedyhli/outline.nvim",
     cmd = { "Outline" },
     ft = { "markdown" },
     opts = {
@@ -49,13 +49,10 @@ return {
         position = "right",
         width = 35,
       },
-      providers = {
-        priority = {
-          "markdown",
-          "lsp",
-        },
-      },
     },
+    config = function(_, opts)
+      require('outline').setup(opts)
+    end,
   },
   {
     "dhruvasagar/vim-table-mode",
