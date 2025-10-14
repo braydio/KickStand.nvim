@@ -1,2 +1,3 @@
 lazy_log.log
-*.log
+.log
+.cache
