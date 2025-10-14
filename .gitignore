@@ -1,3 +1,26 @@
+# Neovim runtime caches and state
+.cache/
+.local/
 lazy_log.log
-.log
-.cache
+lazy_log-*.log
+
+# Neovim runtime logs
+.nvimlog
+nvimlog
+
+# Transient editor files
+*.swp
+*.swo
+*.swx
+*.tmp
+*.bak
+Session.vim
+.netrwhist
+tags
+
+# Generated plugin artifacts
+plugin/packer_compiled.lua
+
+# OS cruft
+.DS_Store
+Thumbs.db
