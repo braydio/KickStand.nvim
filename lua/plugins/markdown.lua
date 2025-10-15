@@ -42,12 +42,72 @@ return {
   },
   {
     "hedyhli/outline.nvim",
-    cmd = { "Outline" },
-    ft = { "markdown" },
+    cmd = {
+      "Outline",
+      "OutlineOpen",
+      "OutlineClose",
+      "OutlineFocus",
+      "OutlineFocusOutline",
+      "OutlineFocusCode",
+      "OutlineFollow",
+      "OutlineRefresh",
+    },
+    keys = {
+      {
+        "<leader>so",
+        function()
+          require('outline').toggle_outline({ focus_outline = false })
+        end,
+        desc = "Outline: Toggle sidebar",
+      },
+      {
+        "<leader>sf",
+        function()
+          require('outline').focus_toggle()
+        end,
+        desc = "Outline: Toggle focus",
+      },
+      {
+        "<leader>sr",
+        function()
+          require('outline').refresh_outline()
+        end,
+        desc = "Outline: Refresh symbols",
+      },
+      {
+        "<leader>ss",
+        function()
+          require('outline').follow_cursor({ focus_outline = false })
+        end,
+        desc = "Outline: Sync with cursor",
+      },
+    },
     opts = {
       outline_window = {
         position = "right",
         width = 35,
+        relative_width = false,
+        focus_on_open = false,
+        auto_close = false,
+        no_provider_message = "Outline: no symbols (is LSP running?)",
+      },
+      outline_items = {
+        show_symbol_details = true,
+        auto_set_cursor = true,
+        highlight_hovered_item = true,
+        auto_update_events = {
+          follow = { "CursorMoved", "CursorHold" },
+          items = { "BufWritePost", "BufEnter" },
+        },
+      },
+      providers = {
+        priority = { "lsp", "markdown", "man", "norg" },
+        lsp = {
+          blacklist_clients = {},
+        },
+        markdown = {
+          filetypes = { "markdown" },
+        },
       },
     },
     config = function(_, opts)
