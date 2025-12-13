@@ -1,11 +1,13 @@
 Neovim config overview
 
 - Config lives in `lua/config`; plugins in `lua/plugins`, managed by `lazy.nvim`.
-- Core includes Telescope, Treesitter, LSP, completion, formatting, themes, dashboard, which-key, and gp.nvim.
+- Core includes Telescope (with ripgrep live-grep and fzf native sorter), Neo-tree explorer, Treesitter, LSP, completion, formatting, themes, dashboard, which-key, and gp.nvim.
 
 Themes and UI
 - Colorschemes installed: Catppuccin (default), TokyoNight, Rose Pine, Kanagawa, Nightfox, Gruvbox, OneDark.
 - Keymaps:
+  - `<leader>ff` / `<leader>fg` — Telescope file finder / live grep (hidden files included).
+  - `<leader>e` / `<leader>eb` / `<leader>eg` — Neo-tree files / buffers / git status (floating).
   - `<leader>uc` — open colorscheme picker (`:Telescope colorscheme`).
   - which-key shows contextual key hints for `<leader>` groups (e.g., `u` for UI, `g` for GP).
 - Dashboard: Alpha shows a start screen on launch (no files) with buttons for New, Find, Recent, Config, Quit.
@@ -48,15 +50,16 @@ Notes
 | `<Esc>` | Normal | Clear search highlight |
 | `<leader>ff` | Normal | Telescope: Find files |
 | `<leader>fg` | Normal | Telescope: Live grep |
+| `<leader>fb` | Normal | Telescope: Buffers |
+| `<leader>fr` | Normal | Telescope: Recent files |
 | `<leader>uc` | Normal | Colorscheme picker (Telescope) |
 | `<leader>uf` | Normal/Visual | Format buffer/selection (conform) |
 | `<leader>um` | Normal | Markdown: Browser preview toggle |
 | `<leader>uM` | Normal | Markdown: In-buffer render toggle |
 | `<leader>,` | Normal | Buffers: List/switch (Telescope) |
-| `<leader>e` | Normal | Explorer: Toggle file tree |
-| `<leader>ef` | Normal | Explorer: Reveal current file |
-| `<leader>er` | Normal | Explorer: Refresh tree |
-| `<leader>ec` | Normal | Explorer: Collapse all |
+| `<leader>e` | Normal | Explorer: Neo-tree files (floating) |
+| `<leader>eb` | Normal | Explorer: Neo-tree buffers |
+| `<leader>eg` | Normal | Explorer: Neo-tree git status |
 | `<leader>gn` | Normal | gp.nvim: New chat |
 | `<leader>ga` | Normal | gp.nvim: Next agent |
 | `<leader>gr` | Visual | gp.nvim: Review code (rewrite) |

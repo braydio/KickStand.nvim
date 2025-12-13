@@ -1,6 +1,7 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
+  cmd = "Neotree",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons", -- optional, for file icons
@@ -140,36 +141,5 @@ return {
         },
       },
     })
-
-    local function fancy_toggle(opts)
-      opts = opts or {}
-      local command = require("neo-tree.command")
-      local reveal_file = vim.api.nvim_buf_get_name(0)
-      if reveal_file == "" then
-        reveal_file = nil
-      end
-
-      command.execute(vim.tbl_deep_extend("force", {
-        source = opts.source or "filesystem",
-        toggle = true,
-        position = opts.position or "float",
-        reveal = true,
-        reveal_file = reveal_file,
-        dir = (vim.uv or vim.loop).cwd(),
-        selector = true,
-      }, opts.extra or {}))
-    end
-
-    vim.keymap.set("n", "<leader>e", function()
-      fancy_toggle({ source = "filesystem" })
-    end, { desc = "Explorer: Neo-tree (fancy)" })
-
-    vim.keymap.set("n", "<leader>eb", function()
-      fancy_toggle({ source = "buffers" })
-    end, { desc = "Explorer: Buffers" })
-
-    vim.keymap.set("n", "<leader>eg", function()
-      fancy_toggle({ source = "git_status", extra = { position = "float" } })
-    end, { desc = "Explorer: Git status" })
   end,
 }
