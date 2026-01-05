@@ -69,8 +69,17 @@ end, { desc = 'Format file' })
 -- UI: Markdown
 vim.keymap.set('n', '<leader>um', '<cmd>MarkdownPreviewToggle<CR>', { desc = 'Markdown: Browser preview' })
 vim.keymap.set('n', '<leader>uM', function()
-  local ok, rm = pcall(require, 'render-markdown')
-  if ok then rm.toggle() else vim.notify('render-markdown not available', vim.log.levels.WARN) end
+  if pcall(vim.cmd, 'Markview') then
+    return
+  end
+
+  local ok, mv = pcall(require, 'markview')
+  if ok and type(mv.toggle) == 'function' then
+    mv.toggle()
+    return
+  end
+
+  vim.notify('markview not available', vim.log.levels.WARN)
 end, { desc = 'Markdown: Toggle in-buffer render' })
 -- Buffers/Tabs: quick buffer picker
 vim.keymap.set('n', '<leader>,', function()

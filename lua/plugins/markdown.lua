@@ -2,26 +2,29 @@
 
 return {
   {
-    "MeanderingProgrammer/render-markdown.nvim",
+    "OXY2DEV/markview.nvim",
     ft = { "markdown" },
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
-    opts = {
-      heading = { enabled = true },
-      code = { enabled = true },
-      dash = { enabled = true },
-      bullet = { enabled = true },
-      quote = { enabled = true },
-      checkbox = { enabled = true },
-    },
+    config = function()
+      require("markview").setup({})
+    end,
   },
   {
     "preservim/vim-markdown",
     ft = { "markdown" },
     config = function()
-      vim.g.vim_markdown_folding_disabled = 0
-      vim.g.vim_markdown_folding_level = 3
+      -- Disable auto-folding to avoid collapsed buffers.
+      vim.g.vim_markdown_folding_disabled = 1
       vim.g.vim_markdown_conceal = 0
       vim.g.vim_markdown_new_list_item_indent = 2
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "markdown",
+        callback = function()
+          vim.opt_local.foldmethod = "manual"
+          vim.opt_local.foldlevel = 99
+        end,
+      })
     end,
   },
   {

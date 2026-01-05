@@ -3,6 +3,7 @@
 .local/
 lazy_log.log
 lazy_log-*.log
+lazy-lock.json
 
 # Neovim runtime logs
 .nvimlog
