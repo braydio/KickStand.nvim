@@ -17,6 +17,30 @@ return {
     end,
   },
   {
+    'Exafunction/codeium.nvim',
+    event = 'InsertEnter',
+    config = function()
+      local ok, codeium = pcall(require, 'codeium')
+      if not ok then
+        return
+      end
+
+      codeium.setup({})
+
+      vim.keymap.set('i', '<C-g>', function()
+        return codeium.accept()
+      end, { expr = true, desc = 'Codeium: Accept suggestion' })
+
+      vim.keymap.set('i', '<C-;>', function()
+        return codeium.complete()
+      end, { expr = true, desc = 'Codeium: Trigger suggestion' })
+
+      vim.keymap.set('i', '<C-c>', function()
+        return codeium.dismiss()
+      end, { expr = true, desc = 'Codeium: Dismiss suggestion' })
+    end,
+  },
+  {
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
     dependencies = {
@@ -41,7 +65,10 @@ return {
             cmp.abort()
             fallback()
           end, { 'i', 's' }),
-          ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+          ['<C-l>'] = cmp.mapping.confirm({ select = true }),
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<C-d>'] = cmp.mapping.scroll_docs(4),
+          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
           ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
