@@ -9,25 +9,14 @@ return {
   },
   config = function()
     local neotree = require("neo-tree")
-    local manager = require("neo-tree.sources.manager")
+    local command = require("neo-tree.command")
 
     neotree.setup({
       close_if_last_window = true,
       popup_border_style = "rounded",
       enable_git_status = true,
       enable_diagnostics = true,
-      source_selector = {
-        winbar = true,
-        statusline = false,
-        content_layout = "center",
-        tabs_layout = "equal",
-        show_scrolled_off_parent_node = true,
-        sources = {
-          { source = "filesystem", display_name = "󰉓 Files" },
-          { source = "buffers", display_name = "󰈙 Buffers" },
-          { source = "git_status", display_name = "󰊢 Git" },
-        },
-      },
+      source_selector = false,
       default_component_configs = {
         container = { enable_character_fade = true },
         indent = {
@@ -59,17 +48,6 @@ return {
       window = {
         position = "left",
         width = 32,
-        popup = {
-          size = {
-            height = "85%",
-            width = "60%",
-          },
-          position = "50%",
-          title = function(state)
-            local path = state.path or (vim.uv or vim.loop).cwd()
-            return "  " .. vim.fn.fnamemodify(path, ":~")
-          end,
-        },
         mappings = {
           ["<cr>"] = "open",
           ["o"] = "open",
@@ -102,8 +80,8 @@ return {
         use_libuv_file_watcher = true,
         group_empty_dirs = true,
         filtered_items = {
-          visible = true,
-          hide_dotfiles = false,
+          visible = false,
+          hide_dotfiles = true,
           hide_gitignored = true,
           hide_by_name = { "node_modules" },
           never_show = { ".DS_Store", "thumbs.db" },
@@ -129,17 +107,45 @@ return {
           position = "float",
         },
       },
-      event_handlers = {
-        {
-          event = "file_opened",
-          handler = function()
-            local state = manager.get_state("filesystem")
-            if state and state.current_position == "float" then
-              require("neo-tree.command").execute({ action = "close" })
-            end
-          end,
-        },
-      },
     })
+<<<<<<< HEAD
+=======
+
+    local function current_file()
+      local bufname = vim.api.nvim_buf_get_name(0)
+      if bufname == "" then
+        return nil
+      end
+      return bufname
+    end
+
+    local function toggle_filesystem(opts)
+      opts = opts or {}
+      command.execute(vim.tbl_deep_extend("force", {
+        source = "filesystem",
+        toggle = true,
+        position = "left",
+        reveal = opts.reveal or false,
+        reveal_file = opts.reveal and current_file() or nil,
+        dir = (vim.uv or vim.loop).cwd(),
+      }, opts.extra or {}))
+    end
+
+    vim.keymap.set("n", "<leader>e", function()
+      toggle_filesystem()
+    end, { desc = "Explorer: Toggle file tree" })
+
+    vim.keymap.set("n", "<leader>ef", function()
+      toggle_filesystem({ reveal = true })
+    end, { desc = "Explorer: Reveal current file" })
+
+    vim.keymap.set("n", "<leader>eb", function()
+      command.execute({ source = "buffers", toggle = true, position = "left" })
+    end, { desc = "Explorer: Buffers" })
+
+    vim.keymap.set("n", "<leader>eg", function()
+      command.execute({ source = "git_status", toggle = true, position = "float" })
+    end, { desc = "Explorer: Git status" })
+>>>>>>> 92c24d2 (file-tree)
   end,
 }
