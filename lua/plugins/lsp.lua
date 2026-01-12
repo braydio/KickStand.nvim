@@ -3,6 +3,7 @@
 return {
   {
     'williamboman/mason.nvim',
+    cmd = { "Mason", "MasonInstall", "MasonUpdate" },
     build = ':MasonUpdate',
     config = true,
   },
@@ -10,7 +11,16 @@ return {
     'williamboman/mason-lspconfig.nvim',
     dependencies = { 'williamboman/mason.nvim' },
     config = {
-      ensure_installed = { 'pyright', 'lua_ls', 'yamlls' },
+      ensure_installed = {
+        'bashls',
+        'jsonls',
+        'lua_ls',
+        'pyright',
+        'ruff_lsp',
+        'taplo',
+        'tsserver',
+        'yamlls',
+      },
     },
   },
   {
@@ -35,6 +45,10 @@ return {
       end
 
       local on_attach = function(client, bufnr)
+        if client.name == 'ruff_lsp' then
+          client.server_capabilities.hoverProvider = false
+        end
+
         -- LSP core
         map('n', 'gd', vim.lsp.buf.definition, 'LSP: Go to definition', bufnr)
         map('n', 'gD', vim.lsp.buf.declaration, 'LSP: Go to declaration', bufnr)
@@ -61,7 +75,35 @@ return {
         end
       end
 
-      lspconfig.pyright.setup { capabilities = capabilities, on_attach = on_attach }
+      lspconfig.pyright.setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = 'workspace',
+              useLibraryCodeForTypes = true,
+              venvPath = vim.fn.getcwd(),
+              venv = '.venv',
+            },
+          },
+        },
+      }
+      lspconfig.ruff_lsp.setup { capabilities = capabilities, on_attach = on_attach }
+      lspconfig.tsserver.setup { capabilities = capabilities, on_attach = on_attach }
+      lspconfig.bashls.setup { capabilities = capabilities, on_attach = on_attach }
+      lspconfig.jsonls.setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      }
+      lspconfig.taplo.setup { capabilities = capabilities, on_attach = on_attach }
       lspconfig.lua_ls.setup {
         capabilities = capabilities,
         on_attach = on_attach,

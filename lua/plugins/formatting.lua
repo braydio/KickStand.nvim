@@ -7,11 +7,21 @@ return {
     opts = {
       notify_on_error = false,
       format_on_save = {
-        lsp_fallback = true,
+        lsp_fallback = false,
         timeout_ms = 500,
       },
       formatters_by_ft = {
-        yaml = { "yamlfmt", "prettierd", "prettier" },
+        bash = { "shfmt" },
+        javascript = { "prettierd" },
+        javascriptreact = { "prettierd" },
+        json = { "prettierd" },
+        jsonc = { "prettierd" },
+        python = { "black" },
+        sh = { "shfmt" },
+        typescript = { "prettierd" },
+        typescriptreact = { "prettierd" },
+        yaml = { "prettierd" },
+        toml = { "taplo" },
       },
     },
     config = function(_, opts)
@@ -62,9 +72,11 @@ return {
     dependencies = { "williamboman/mason.nvim" },
     opts = {
       ensure_installed = {
-        "yamlfmt",
+        "black",
         "prettierd",
-        "prettier",
+        "ruff",
+        "shfmt",
+        "taplo",
       },
       run_on_start = true,
       start_delay = 0,

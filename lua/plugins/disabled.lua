@@ -2,6 +2,7 @@
 -- Add plugin repo strings below (e.g. "mhinz/vim-startify") to disable them.
 local disabled = {
   -- "mhinz/vim-startify",
+  -- "mg979/vim-visual-multi",
   "goolord/alpha-nvim",
 }
 
