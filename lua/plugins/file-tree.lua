@@ -108,9 +108,6 @@ return {
         },
       },
     })
-<<<<<<< HEAD
-=======
-
     local function current_file()
       local bufname = vim.api.nvim_buf_get_name(0)
       if bufname == "" then
@@ -146,6 +143,5 @@ return {
     vim.keymap.set("n", "<leader>eg", function()
       command.execute({ source = "git_status", toggle = true, position = "float" })
     end, { desc = "Explorer: Git status" })
->>>>>>> 92c24d2 (file-tree)
   end,
 }
