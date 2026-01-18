@@ -3,6 +3,15 @@ Neovim config overview
 - Config lives in `lua/config`; plugins in `lua/plugins`, managed by `lazy.nvim`.
 - Core includes Telescope (with ripgrep live-grep and fzf native sorter), Neo-tree explorer, Treesitter, LSP, completion, formatting, themes, dashboard, which-key, and gp.nvim.
 
+Plugin overview
+- Main stack: Telescope, Neo-tree, Treesitter, LSP via mason.nvim + nvim-lspconfig, completion via nvim-cmp + LuaSnip, formatting via conform.nvim + none-ls (mason-null-ls for extra tools).
+- Not-quite-standard additions: gp.nvim (AI chat/rewrite), codeium.nvim (inline AI), markdown suite (markview, markdown-preview, vim-markdown, table-mode), outline.nvim, vim-visual-multi.
+- Startup screens: vim-startify enabled; alpha-nvim is configured but disabled in `lua/plugins/disabled.lua`.
+- Themes: Catppuccin default plus TokyoNight, Rose Pine, Kanagawa, Nightfox, Gruvbox, OneDark.
+
+Other plugins
+- lualine.nvim, bufferline.nvim, which-key.nvim, mini.surround, nvim-web-devicons.
+
 Themes and UI
 - Colorschemes installed: Catppuccin (default), TokyoNight, Rose Pine, Kanagawa, Nightfox, Gruvbox, OneDark.
 - Keymaps:
@@ -10,7 +19,7 @@ Themes and UI
   - `<leader>e` / `<leader>eb` / `<leader>eg` — Neo-tree files / buffers / git status (floating).
   - `<leader>uc` — open colorscheme picker (`:Telescope colorscheme`).
   - which-key shows contextual key hints for `<leader>` groups (e.g., `u` for UI, `g` for GP).
-- Dashboard: Alpha shows a start screen on launch (no files) with buttons for New, Find, Recent, Config, Quit.
+- Dashboard: Startify shows a start screen on launch (no files) with sessions, recent files, bookmarks, and commands.
 
 YAML support
 - Treesitter: ensures `yaml` parser for syntax and indentation.
