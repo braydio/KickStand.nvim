@@ -16,7 +16,10 @@ return {
       popup_border_style = "rounded",
       enable_git_status = true,
       enable_diagnostics = true,
-      source_selector = false,
+      source_selector = {
+        winbar = false,
+        statusline = false,
+      },
       default_component_configs = {
         container = { enable_character_fade = true },
         indent = {

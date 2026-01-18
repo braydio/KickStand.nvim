@@ -17,7 +17,6 @@ return {
         { "<leader>l", group = "LSP" },
         { "<leader>m", group = "Multi-cursor" },
         { "<leader>,", group = "Buffers" },
-        { "<leader>s", group = "Surround" },
       })
     end,
   },

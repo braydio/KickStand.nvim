@@ -41,6 +41,8 @@ Getting started
 Notes
 - Colorscheme defaults to Catppuccin; switch anytime with `<leader>uc`.
 - gp.nvim logs to `~/.config/nvim/lazy_log.log`. A proxy is configured in `gp.lua` (disable or change if not needed).
+- mini.surround: use the default mappings (`sa`, `sd`, `sr`, `sf`, etc.). Leader-wrapped Lua calls were removed because they can desync the “highlighted” region.
+- vim-visual-multi: keymaps create selections/cursors in Normal/Visual mode; once you see multiple selections, press `i`/`a`/`c` to edit across all cursors, and `<Esc>` to exit.
 
 ## Keymap Cheat Sheet
 
@@ -71,6 +73,14 @@ Notes
 | `<leader>gd` | Visual | gp.nvim: Add docstring (rewrite) |
 | `<leader>gT` | Visual | gp.nvim: Generate unit tests (rewrite) |
 | `<leader>gM` | Visual | gp.nvim: Commit message from selection (rewrite) |
+| `<leader>mn` | Normal | Multi: Add next match (vim-visual-multi) |
+| `<leader>md` | Normal | Multi: Add cursor down (vim-visual-multi) |
+| `<leader>mu` | Normal | Multi: Add cursor up (vim-visual-multi) |
+| `<leader>ma` | Normal | Multi: Select all matches (vim-visual-multi) |
+| `sa` | Normal/Visual | Surround: Add (mini.surround) |
+| `sd` | Normal | Surround: Delete (mini.surround) |
+| `sr` | Normal | Surround: Replace (mini.surround) |
+| `sh` | Normal | Surround: Highlight (mini.surround) |
 | `<S-h>` / `<S-l>` | Normal | Buffer: Prev / Next (bufferline) |
 | `<leader>bd` | Normal | Buffer: Close (delete) |
 | `<leader>bp` | Normal | Buffer: Pin |

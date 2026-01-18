@@ -3,7 +3,15 @@
 return {
   {
     "echasnovski/mini.surround",
-    event = "VeryLazy",
+    keys = {
+      { "sa", mode = { "n", "x" } },
+      { "sd", mode = "n" },
+      { "sf", mode = "n" },
+      { "sF", mode = "n" },
+      { "sh", mode = "n" },
+      { "sr", mode = "n" },
+      { "sn", mode = "n" },
+    },
     config = function()
       require("mini.surround").setup({
         mappings = {
