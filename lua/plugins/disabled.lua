@@ -1,9 +1,10 @@
 -- Central place to toggle plugins without touching their config files.
 -- Add plugin repo strings below (e.g. "mhinz/vim-startify") to disable them.
 local disabled = {
-  -- "mhinz/vim-startify",
-  -- "mg979/vim-visual-multi",
+  "goolord/alpha-nvim",
   "mhinz/vim-startify",
+  -- "mg979/vim-visual-multi",
+  -- "nvimdev/dashboard-nvim",
 }
 
 local specs = {}
