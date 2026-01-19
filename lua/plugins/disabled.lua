@@ -3,7 +3,7 @@
 local disabled = {
   -- "mhinz/vim-startify",
   -- "mg979/vim-visual-multi",
-  "goolord/alpha-nvim",
+  "mhinz/vim-startify",
 }
 
 local specs = {}

@@ -8,10 +8,19 @@ return {
     config = function()
       local alpha = require("alpha")
       local dashboard = require("alpha.themes.dashboard")
+      local day_name = os.date("%A")
+      local date_line = os.date("%B %d, %Y")
 
       dashboard.section.header.val = {
         "",
-        "    Welcome to Neovim",
+        "   _   __                         _          ",
+        "  / | / /__  ____  ____ ___  ___  (_)___ ___  ",
+        " /  |/ / _ \\/ __ \\/ __ `__ \\/ _ \\/ / __ `__ \\ ",
+        "/ /|  /  __/ /_/ / / / / / /  __/ / / / / / / ",
+        "/_/ |_|\\___/\\____/_/ /_/ /_/\\___/_/_/ /_/ /_/  ",
+        "",
+        "  " .. day_name .. " energy",
+        "  " .. date_line,
         "",
       }
 
@@ -26,10 +35,11 @@ return {
       dashboard.section.footer.val = function()
         return "Have a productive session!"
       end
+      dashboard.section.header.opts.hl = "Type"
+      dashboard.section.footer.opts.hl = "Comment"
 
       dashboard.config.opts.noautocmd = true
       alpha.setup(dashboard.config)
     end,
   },
 }
-
