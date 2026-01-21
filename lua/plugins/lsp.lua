@@ -1,4 +1,4 @@
--- Configures language servers via lspconfig and mason.
+-- Configures language servers via vim.lsp.config and mason.
 
 return {
   {
@@ -10,15 +10,16 @@ return {
   {
     'williamboman/mason-lspconfig.nvim',
     dependencies = { 'williamboman/mason.nvim' },
+    event = { "BufReadPost", "BufNewFile" },
     config = {
       ensure_installed = {
         'bashls',
         'jsonls',
         'lua_ls',
         'pyright',
-        'ruff_lsp',
+        'ruff',
         'taplo',
-        'tsserver',
+        'ts_ls',
         'yamlls',
       },
     },
@@ -26,8 +27,8 @@ return {
   {
     'neovim/nvim-lspconfig',
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'b0o/schemastore.nvim' },
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
-      local lspconfig = require('lspconfig')
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local map = function(mode, lhs, rhs, desc, bufnr)
         vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = bufnr })
@@ -45,7 +46,7 @@ return {
       end
 
       local on_attach = function(client, bufnr)
-        if client.name == 'ruff_lsp' then
+        if client.name == 'ruff' or client.name == 'ruff_lsp' then
           client.server_capabilities.hoverProvider = false
         end
 
@@ -75,9 +76,12 @@ return {
         end
       end
 
-      lspconfig.pyright.setup {
+      vim.lsp.config('*', {
         capabilities = capabilities,
         on_attach = on_attach,
+      })
+
+      vim.lsp.config('pyright', {
         settings = {
           python = {
             analysis = {
@@ -89,35 +93,29 @@ return {
             },
           },
         },
-      }
-      lspconfig.ruff_lsp.setup { capabilities = capabilities, on_attach = on_attach }
-      lspconfig.tsserver.setup { capabilities = capabilities, on_attach = on_attach }
-      lspconfig.bashls.setup { capabilities = capabilities, on_attach = on_attach }
-      lspconfig.jsonls.setup {
-        capabilities = capabilities,
-        on_attach = on_attach,
+      })
+      vim.lsp.config('ruff', {})
+      vim.lsp.config('ts_ls', {})
+      vim.lsp.config('bashls', {})
+      vim.lsp.config('jsonls', {
         settings = {
           json = {
             schemas = require('schemastore').json.schemas(),
             validate = { enable = true },
           },
         },
-      }
-      lspconfig.taplo.setup { capabilities = capabilities, on_attach = on_attach }
-      lspconfig.lua_ls.setup {
-        capabilities = capabilities,
-        on_attach = on_attach,
+      })
+      vim.lsp.config('taplo', {})
+      vim.lsp.config('lua_ls', {
         settings = {
           Lua = {
             diagnostics = { globals = { 'vim' } },
           },
         },
-      }
+      })
 
       -- YAML LSP with SchemaStore schemas
-      lspconfig.yamlls.setup {
-        capabilities = capabilities,
-        on_attach = on_attach,
+      vim.lsp.config('yamlls', {
         settings = {
           yaml = {
             schemaStore = { enable = false, url = "" },
@@ -126,7 +124,18 @@ return {
             keyOrdering = false,
           },
         },
-      }
+      })
+
+      vim.lsp.enable({
+        'pyright',
+        'ruff',
+        'ts_ls',
+        'bashls',
+        'jsonls',
+        'taplo',
+        'lua_ls',
+        'yamlls',
+      })
     end,
   },
 }

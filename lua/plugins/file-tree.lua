@@ -1,7 +1,7 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
-  cmd = "Neotree",
+  lazy = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons", -- optional, for file icons
@@ -15,7 +15,7 @@ return {
       close_if_last_window = true,
       popup_border_style = "rounded",
       enable_git_status = true,
-      enable_diagnostics = true,
+      enable_diagnostics = false,
       source_selector = {
         winbar = false,
         statusline = false,
@@ -23,9 +23,9 @@ return {
       default_component_configs = {
         container = { enable_character_fade = true },
         indent = {
-          with_markers = true,
+          with_markers = false,
           indent_size = 2,
-          padding = 1,
+          padding = 0,
         },
         icon = {
           folder_closed = "",
@@ -34,6 +34,10 @@ return {
           default = "󰈚",
         },
         modified = { symbol = "" },
+        name = {
+          trailing_slash = true,
+          use_git_status_colors = false,
+        },
         git_status = {
           symbols = {
             added = "",
@@ -50,7 +54,7 @@ return {
       },
       window = {
         position = "left",
-        width = 32,
+        width = 30,
         mappings = {
           ["<cr>"] = "open",
           ["o"] = "open",
@@ -76,6 +80,7 @@ return {
       filesystem = {
         bind_to_cwd = false,
         hijack_netrw_behavior = "open_current",
+        hide_root_node = true,
         follow_current_file = {
           enabled = true,
           leave_dirs_open = true,
@@ -86,7 +91,7 @@ return {
           visible = false,
           hide_dotfiles = true,
           hide_gitignored = true,
-          hide_by_name = { "node_modules" },
+          hide_by_name = { ".git", "node_modules" },
           never_show = { ".DS_Store", "thumbs.db" },
         },
         window = {

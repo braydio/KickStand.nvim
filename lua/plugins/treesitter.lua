@@ -4,8 +4,11 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    cmd = { "TSInstall", "TSInstallSync", "TSUpdate", "TSUpdateSync" },
+    event = { "BufReadPost", "BufNewFile" },
     opts = {
-      ensure_installed = { "yaml", "markdown", "markdown_inline" },
+      auto_install = true,
+      ensure_installed = { "markdown", "markdown_inline", "python", "yaml" },
       highlight = { enable = true },
       indent = { enable = true },
     },
