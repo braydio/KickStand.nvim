@@ -1,4 +1,6 @@
 # Repository Guidelines
+ - Golden Rule of (Preventing) Documentation Drift:
+    > Update the documentation for the repo whenever you change anything or find stale or otherwise incorrect documentation (including this file).
 
 ## Project Structure & Module Organization
 - `init.lua` bootstraps `lazy.nvim`, sets leaders, and loads `lua/config`.
