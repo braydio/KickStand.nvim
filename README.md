@@ -1,11 +1,12 @@
 Neovim config overview
 
 - Config lives in `lua/config`; plugins in `lua/plugins`, managed by `lazy.nvim`.
-- Core includes Telescope (with ripgrep live-grep and fzf native sorter), Neo-tree explorer, Treesitter, LSP, completion, formatting, themes, dashboard, which-key, and gp.nvim.
+- Core includes Telescope (with ripgrep live-grep and fzf native sorter), Neo-tree explorer, Treesitter, LSP, completion, formatting, themes, dashboard, which-key, gp.nvim, and Godot debugging support.
 
 Plugin overview
 - Main stack: Telescope, Neo-tree, Treesitter, LSP via mason.nvim + nvim-lspconfig, completion via nvim-cmp + LuaSnip, formatting via conform.nvim + none-ls (mason-null-ls for extra tools).
 - Not-quite-standard additions: gp.nvim (AI chat/rewrite), codeium.nvim (inline AI), markdown suite (markview, markdown-preview, vim-markdown, table-mode), outline.nvim, vim-visual-multi.
+- Godot: godotdev.nvim plus nvim-dap, nvim-dap-ui, nvim-nio, and nvim-dap-virtual-text load for GDScript/Godot buffers.
 - Startup screens: vim-startify enabled; alpha-nvim is configured but disabled in `lua/plugins/disabled.lua`.
 - Themes: Catppuccin default plus TokyoNight, Rose Pine, Kanagawa, Nightfox, Gruvbox, OneDark.
 
@@ -41,6 +42,14 @@ gp.nvim (AI helpers)
   - `<leader>gd` — add docstring
   - `<leader>gT` — generate unit tests
   - `<leader>gM` — craft commit message
+
+Codeium (inline AI)
+- Plugin: `Exafunction/codeium.nvim`.
+- Authenticate with `:Codeium Auth` if prompted.
+- Insert mode:
+  - `<C-g>` — accept inline suggestion
+  - `<C-;>` — trigger suggestion
+  - `<C-c>` — dismiss suggestion
 
 Getting started
 - Run `:Lazy sync` after cloning or updating config to install plugins.
@@ -82,6 +91,17 @@ Notes
 | `<leader>gd` | Visual | gp.nvim: Add docstring (rewrite) |
 | `<leader>gT` | Visual | gp.nvim: Generate unit tests (rewrite) |
 | `<leader>gM` | Visual | gp.nvim: Commit message from selection (rewrite) |
+| `<F5>` | Normal | DAP: Continue |
+| `<F10>` | Normal | DAP: Step over |
+| `<F11>` | Normal | DAP: Step into |
+| `<F12>` | Normal | DAP: Step out |
+| `<leader>db` | Normal | DAP: Toggle breakpoint |
+| `<leader>dB` | Normal | DAP: Set breakpoint |
+| `<leader>dr` | Normal | DAP: Open REPL |
+| `<leader>du` | Normal | DAP: Toggle UI |
+| `<C-g>` | Insert | Codeium: Accept inline suggestion |
+| `<C-;>` | Insert | Codeium: Trigger inline suggestion |
+| `<C-c>` | Insert | Codeium: Dismiss inline suggestion |
 | `<leader>mn` | Normal | Multi: Add next match (vim-visual-multi) |
 | `<leader>md` | Normal | Multi: Add cursor down (vim-visual-multi) |
 | `<leader>mu` | Normal | Multi: Add cursor up (vim-visual-multi) |
