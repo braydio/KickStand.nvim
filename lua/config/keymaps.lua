@@ -91,7 +91,6 @@ vim.keymap.set('n', '<leader>,', function()
   end
 end, { desc = 'Buffers: List/switch' })
 
--- (Optional) If you still want a cycle key, you can repurpose this later
 -- vim.keymap.set('n', '<leader>t', function() end, { desc = 'Cycle next colorscheme' })
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus left' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus right' })
@@ -102,5 +101,8 @@ vim.keymap.set('n', '<C-Up>', '<cmd>resize +2<CR>', { desc = 'Increase window he
 vim.keymap.set('n', '<C-Down>', '<cmd>resize -2<CR>', { desc = 'Decrease window height' })
 vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -2<CR>', { desc = 'Decrease window width' })
 vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +2<CR>', { desc = 'Increase window width' })
+
+-- Calcurse calendar integrated with planner autocmd
+-- vim.keymap.set('n','<leader>cL :split | terminal calcurse<CR>', { desc = 'Launch Calcurse in split terminal' })
 
 return {}
