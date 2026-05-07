@@ -8,7 +8,7 @@ return {
     cmd = { "TSInstall", "TSInstallSync", "TSUpdate", "TSUpdateSync" },
     opts = {
       auto_install = true,
-      ensure_installed = { "markdown", "markdown_inline", "python", "yaml" },
+       ensure_installed = { "markdown", "markdown_inline", "python", "yaml", "gdscript" },
       highlight = { enable = true },
       indent = { enable = true },
     },

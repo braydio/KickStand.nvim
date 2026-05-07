@@ -3,7 +3,9 @@
 local disabled = {
   "goolord/alpha-nvim",
   "mhinz/vim-startify",
+  -- "Exafunction/codeium.nvim",
   -- "mg979/vim-visual-multi",
+  -- "nvim-neotest/nvim-nio",
   -- "nvimdev/dashboard-nvim",
 }
 

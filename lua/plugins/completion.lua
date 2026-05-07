@@ -25,19 +25,27 @@ return {
         return
       end
 
-      codeium.setup({})
+      codeium.setup({
+        enable_cmp_source = false,
+        virtual_text = {
+          enabled = true,
+          map_keys = false,
+        },
+      })
+
+      local virtual_text = require('codeium.virtual_text')
 
       vim.keymap.set('i', '<C-g>', function()
-        return codeium.accept()
+        return virtual_text.accept()
       end, { expr = true, desc = 'Codeium: Accept suggestion' })
 
       vim.keymap.set('i', '<C-;>', function()
-        return codeium.complete()
-      end, { expr = true, desc = 'Codeium: Trigger suggestion' })
+        virtual_text.complete()
+      end, { desc = 'Codeium: Trigger suggestion' })
 
       vim.keymap.set('i', '<C-c>', function()
-        return codeium.dismiss()
-      end, { expr = true, desc = 'Codeium: Dismiss suggestion' })
+        virtual_text.clear()
+      end, { desc = 'Codeium: Dismiss suggestion' })
     end,
   },
   {
