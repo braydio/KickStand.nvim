@@ -8,34 +8,80 @@ return {
     cmd = { "TSInstall", "TSInstallSync", "TSUpdate", "TSUpdateSync" },
     opts = {
       auto_install = true,
-       ensure_installed = { "markdown", "markdown_inline", "python", "yaml", "gdscript" },
-      highlight = { enable = true },
+      ensure_installed = {
+        "css",
+        "html",
+        "javascript",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "typescript",
+        "vue",
+        "yaml",
+      },
+      highlight = {
+        enable = true,
+        disable = function(lang, buf)
+          local ok = pcall(vim.treesitter.query.get, lang, "highlights")
+          if ok then
+            return false
+          end
+          vim.g.ts_query_error_warned = vim.g.ts_query_error_warned or {}
+          if not vim.g.ts_query_error_warned[lang] then
+            vim.g.ts_query_error_warned[lang] = true
+            vim.schedule(function()
+              vim.notify(
+                ("Treesitter %s highlights disabled due to an invalid query. Run :TSUpdate to refresh parsers."):format(lang),
+                vim.log.levels.WARN
+              )
+            end)
+          end
+          return true
+        end,
+      },
       indent = { enable = true },
     },
     config = function(_, opts)
-      local ok, configs = pcall(require, "nvim-treesitter.configs")
-      if ok then
-        configs.setup(opts)
-        return
+      local function patch_python_except_star_query()
+        local ok = pcall(vim.treesitter.query.get, "python", "highlights")
+        if ok then
+          return
+        end
+
+        local query_files = vim.api.nvim_get_runtime_file("queries/python/highlights.scm", true)
+        local treesitter_query_file
+        for _, file in ipairs(query_files) do
+          if file:find("nvim%-treesitter", 1, false) then
+            treesitter_query_file = file
+            break
+          end
+        end
+        if not treesitter_query_file then
+          return
+        end
+
+        local lines = vim.fn.readfile(treesitter_query_file)
+        local query = table.concat(lines, "\n")
+        local patched = query:gsub('\n%s*"except%*"%s*', "\n")
+        if patched == query then
+          return
+        end
+
+        local patched_ok = pcall(vim.treesitter.query.set, "python", "highlights", patched)
+        if not patched_ok then
+          return
+        end
+
+        vim.schedule(function()
+          vim.notify(
+            "Treesitter python highlights query patched for parser compatibility (removed except*).",
+            vim.log.levels.WARN
+          )
+        end)
       end
 
-      local treesitter = require("nvim-treesitter")
-      treesitter.setup({
-        install_dir = opts.install_dir,
-      })
-
-      treesitter.install(opts.ensure_installed)
-
-      vim.api.nvim_create_autocmd("FileType", {
-        group = vim.api.nvim_create_augroup("config_treesitter", { clear = true }),
-        callback = function()
-          pcall(vim.treesitter.start)
-
-          if opts.indent and opts.indent.enable then
-            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-          end
-        end,
-      })
+      patch_python_except_star_query()
+      require("nvim-treesitter.configs").setup(opts)
     end,
   },
 }

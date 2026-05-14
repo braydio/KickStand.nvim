@@ -51,6 +51,13 @@ vim.keymap.set('n', '<leader>ff', telescope_builtin('find_files', { hidden = tru
 vim.keymap.set('n', '<leader>fg', telescope_builtin('live_grep'), { desc = 'Search: Live grep' })
 vim.keymap.set('n', '<leader>fb', telescope_builtin('buffers'), { desc = 'Search: Buffers' })
 vim.keymap.set('n', '<leader>fr', telescope_builtin('oldfiles'), { desc = 'Search: Recent files' })
+vim.keymap.set('n', '<leader>FN', function()
+  local path = vim.fn.input('New file: ', '', 'file')
+  if path == '' then
+    return
+  end
+  vim.cmd('edit ' .. vim.fn.fnameescape(path))
+end, { desc = 'File: New' })
 -- Explorer (Neo-tree)
 vim.keymap.set('n', '<leader>e', neo_tree_toggle({ source = 'filesystem' }), { desc = 'Explorer: Files' })
 vim.keymap.set('n', '<leader>eb', neo_tree_toggle({ source = 'buffers' }), { desc = 'Explorer: Buffers' })
