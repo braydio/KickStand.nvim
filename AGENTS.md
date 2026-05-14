@@ -4,11 +4,10 @@
 
 ## Project Structure & Module Organization
 - `init.lua` bootstraps `lazy.nvim`, sets leaders, and loads `lua/config`.
-- `lua/init.lua` mirrors the top-level bootstrap; keep it in sync if you rely on `require("init")` elsewhere.
 - `lua/config/` holds core settings (options, keymaps, init).
 - `lua/plugins/` contains plugin specs and configuration modules, grouped by feature (lsp, telescope, treesitter, etc.).
 - `lua/plugins/disabled.lua` is the single toggle list for disabling plugins without editing their configs.
-- `lua/plugins/file-tree.lua` configures `neo-tree` (primary explorer); `lua/plugins/nvim-tree.lua` is present but disabled.
+- `lua/plugins/file-tree.lua` configures `neo-tree` as the primary explorer.
 - `after/plugin/` contains post-load overrides (currently `tablemode.lua` patches Tableize to avoid E790 on undo).
 - `lua/snippets/` stores custom snippets; `lazy-lock.json` pins plugin versions.
 - `README.md` documents keymaps, themes, and common workflows.
@@ -32,7 +31,7 @@
 - Manual checks: launch `nvim`, run `:Lazy sync`, and verify the relevant feature or keymap behaves as expected.
 
 ## Commit & Pull Request Guidelines
-- No established Git history; use imperative commit messages (e.g., “Add Startify config”).
+- No established Git history; use imperative commit messages (e.g., “Add Telescope config”).
 - PRs should include: summary of changes, why they’re needed, and how to validate (commands or steps).
 - Call out any plugin additions/removals and updates to `lazy-lock.json`.
 

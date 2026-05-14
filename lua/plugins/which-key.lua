@@ -13,6 +13,7 @@ return {
       wk.add({
         { "<leader>u", group = "UI" },
         { "<leader>g", group = "GP" },
+        { "<leader>h", group = "Git hunks" },
         { "<leader>e", group = "Explorer" },
         { "<leader>l", group = "LSP" },
         { "<leader>m", group = "Multi-cursor" },

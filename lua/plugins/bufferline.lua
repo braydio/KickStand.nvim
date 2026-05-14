@@ -1,4 +1,4 @@
--- A nice-looking buffer/tab line with diagnostics and NvimTree offset
+-- A nice-looking buffer/tab line with diagnostics and Neo-tree offset.
 
 return {
   {
@@ -14,7 +14,7 @@ return {
         show_close_icon = false,
         always_show_bufferline = true,
         offsets = {
-          { filetype = "NvimTree", text = "Explorer", highlight = "Directory", separator = true },
+          { filetype = "neo-tree", text = "Explorer", highlight = "Directory", separator = true },
         },
       },
     },
@@ -28,4 +28,3 @@ return {
     end,
   },
 }
-

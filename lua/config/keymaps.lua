@@ -1,48 +1,13 @@
 -- Defines custom keymaps for Neovim.
 
-local function lazy_load(plugin)
-  local ok, lazy = pcall(require, "lazy")
-  if ok then
-    lazy.load({ plugins = { plugin } })
-  end
-end
-
 local function telescope_builtin(fn, opts)
   return function()
-    lazy_load("telescope.nvim")
     local ok, builtin = pcall(require, "telescope.builtin")
     if not ok then
       vim.notify("telescope not available", vim.log.levels.WARN)
       return
     end
     builtin[fn](opts or {})
-  end
-end
-
-local function neo_tree_toggle(opts)
-  opts = opts or {}
-  return function()
-    lazy_load("neo-tree.nvim")
-    local ok, command = pcall(require, "neo-tree.command")
-    if not ok then
-      vim.notify("neo-tree not available", vim.log.levels.WARN)
-      return
-    end
-
-    local reveal_file = vim.api.nvim_buf_get_name(0)
-    if reveal_file == "" then
-      reveal_file = nil
-    end
-
-    command.execute(vim.tbl_deep_extend("force", {
-      source = opts.source or "filesystem",
-      toggle = true,
-      position = opts.position or "float",
-      reveal = true,
-      reveal_file = reveal_file,
-      dir = (vim.uv or vim.loop).cwd(),
-      selector = true,
-    }, opts.extra or {}))
   end
 end
 
@@ -58,10 +23,6 @@ vim.keymap.set('n', '<leader>FN', function()
   end
   vim.cmd('edit ' .. vim.fn.fnameescape(path))
 end, { desc = 'File: New' })
--- Explorer (Neo-tree)
-vim.keymap.set('n', '<leader>e', neo_tree_toggle({ source = 'filesystem' }), { desc = 'Explorer: Files' })
-vim.keymap.set('n', '<leader>eb', neo_tree_toggle({ source = 'buffers' }), { desc = 'Explorer: Buffers' })
-vim.keymap.set('n', '<leader>eg', neo_tree_toggle({ source = 'git_status', extra = { position = 'float' } }), { desc = 'Explorer: Git status' })
 
 vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { desc = 'Write buffer' })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -71,7 +32,12 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 vim.keymap.set('n', '<leader>uc', '<cmd>Telescope colorscheme<CR>', { desc = 'Choose colorscheme' })
 -- UI: Format
 vim.keymap.set({ 'n', 'v' }, '<leader>uf', function()
-  require('conform').format({ async = false, lsp_fallback = true })
+  local ok, conform = pcall(require, 'conform')
+  if ok then
+    conform.format({ async = false, lsp_fallback = true })
+  else
+    vim.lsp.buf.format({ async = false })
+  end
 end, { desc = 'Format file' })
 -- UI: Markdown
 vim.keymap.set('n', '<leader>um', '<cmd>MarkdownPreviewToggle<CR>', { desc = 'Markdown: Browser preview' })

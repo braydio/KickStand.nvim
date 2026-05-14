@@ -1,4 +1,4 @@
--- Formatting setup using conform.nvim for general languages and formatter.nvim for Markdown
+-- Formatting setup using conform.nvim.
 
 return {
   {
@@ -16,55 +16,18 @@ return {
         javascriptreact = { "prettierd" },
         json = { "prettierd" },
         jsonc = { "prettierd" },
-        python = { "black" },
+        markdown = { "prettierd", "prettier" },
+        ["markdown.mdx"] = { "prettierd", "prettier" },
+        python = { "isort", "black" },
         sh = { "shfmt" },
+        toml = { "taplo" },
         typescript = { "prettierd" },
         typescriptreact = { "prettierd" },
-        yaml = { "prettierd" },
-        toml = { "taplo" },
+        yaml = { "yamlfmt", "prettierd", "prettier" },
       },
     },
     config = function(_, opts)
       require("conform").setup(opts)
-    end,
-  },
-  {
-    "mhartington/formatter.nvim",
-    ft = { "markdown", "markdown.mdx" },
-    config = function()
-      local formatter = require("formatter")
-      local util = require("formatter.util")
-
-      formatter.setup({
-        logging = false,
-        filetype = {
-          markdown = {
-            function()
-              return {
-                exe = "prettier",
-                args = { "--stdin-filepath", util.escape_path(util.get_current_buffer_file_path()) },
-                stdin = true,
-              }
-            end,
-          },
-          ["markdown.mdx"] = {
-            function()
-              return {
-                exe = "prettier",
-                args = { "--stdin-filepath", util.escape_path(util.get_current_buffer_file_path()) },
-                stdin = true,
-              }
-            end,
-          },
-        },
-      })
-
-      local group = vim.api.nvim_create_augroup("MarkdownFormatter", { clear = true })
-      vim.api.nvim_create_autocmd("BufWritePost", {
-        group = group,
-        pattern = { "*.md", "*.markdown", "*.mdx" },
-        command = "silent! FormatWrite",
-      })
     end,
   },
   {
@@ -73,10 +36,13 @@ return {
     opts = {
       ensure_installed = {
         "black",
+        "isort",
+        "prettier",
         "prettierd",
         "ruff",
         "shfmt",
         "taplo",
+        "yamlfmt",
       },
       run_on_start = true,
       start_delay = 0,

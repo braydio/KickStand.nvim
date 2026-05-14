@@ -37,7 +37,7 @@ vim.g.have_nerd_font = false
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking text',
-  group = vim.api.nvim_create_augroup('kickstart-hightlight-yank', { clear = true }),
+  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
   callback = function()
     vim.hl.on_yank()
   end,

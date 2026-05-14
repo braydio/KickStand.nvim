@@ -42,45 +42,6 @@ return {
       indent = { enable = true },
     },
     config = function(_, opts)
-      local function patch_python_except_star_query()
-        local ok = pcall(vim.treesitter.query.get, "python", "highlights")
-        if ok then
-          return
-        end
-
-        local query_files = vim.api.nvim_get_runtime_file("queries/python/highlights.scm", true)
-        local treesitter_query_file
-        for _, file in ipairs(query_files) do
-          if file:find("nvim%-treesitter", 1, false) then
-            treesitter_query_file = file
-            break
-          end
-        end
-        if not treesitter_query_file then
-          return
-        end
-
-        local lines = vim.fn.readfile(treesitter_query_file)
-        local query = table.concat(lines, "\n")
-        local patched = query:gsub('\n%s*"except%*"%s*', "\n")
-        if patched == query then
-          return
-        end
-
-        local patched_ok = pcall(vim.treesitter.query.set, "python", "highlights", patched)
-        if not patched_ok then
-          return
-        end
-
-        vim.schedule(function()
-          vim.notify(
-            "Treesitter python highlights query patched for parser compatibility (removed except*).",
-            vim.log.levels.WARN
-          )
-        end)
-      end
-
-      patch_python_except_star_query()
       require("nvim-treesitter.configs").setup(opts)
     end,
   },
